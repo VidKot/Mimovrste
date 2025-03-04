@@ -1,4 +1,8 @@
-<div id="<%= dom_id(comment) %>">
+<% if comment.present? %>
+  <div id="<%= dom_id(comment) %>">
     <%= comment.content %> -
-    <%= time_tag comment.update_at, "data-local": "time-ago" %>
-</div>
+    <%= time_tag comment.updated_at, "data-local": "time-ago" %>
+  </div>
+<% else %>
+  <p>Comment not found.</p>
+<% end %>
