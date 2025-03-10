@@ -1,21 +1,12 @@
 <%= form_with(model: post) do |form| %>
   <% if post.errors.any? %>
     <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
-
       <ul>
         <% post.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
       </ul>
     </div>
-  <% end %>
-
-  <!-- Display Post Owner -->
-  <% if post.user.present? %>
-    <p><strong>Posted by:</strong> <%= post.user.email %></p>  <!-- Change to post.user.name if you have a name column -->
-  <% else %>
-    <p><strong>Posted by:</strong> Unknown</p>
   <% end %>
 
   <%= form.label :title, "Title" %>
