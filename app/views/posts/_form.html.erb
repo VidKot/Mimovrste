@@ -11,15 +11,24 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :title, style: "display: block" %>
-    <%= form.text_field :title %>
-  </div>
+  <!-- Display Post Owner -->
+  <% if post.user.present? %>
+    <p><strong>Posted by:</strong> <%= post.user.email %></p>  <!-- Change to post.user.name if you have a name column -->
+  <% else %>
+    <p><strong>Posted by:</strong> Unknown</p>
+  <% end %>
 
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.rich_textarea :body %>
-  </div>
+  <%= form.label :title, "Title" %>
+  <%= form.text_field :title %>
+
+  <%= form.label :picture, "Picture" %>
+  <%= form.file_field :picture %>
+
+  <%= form.label :price, "Price" %>
+  <%= form.text_field :price %>
+
+  <%= form.label :contact, "Contact" %>
+  <%= form.text_field :contact %>
 
   <div>
     <%= form.submit %>
