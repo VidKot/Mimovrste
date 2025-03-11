@@ -21,6 +21,7 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "https://cdn.simplecss.org/simple.css" %>
     <%= javascript_importmap_tags %>
+
   </head>
 
   <body>
@@ -30,8 +31,6 @@
     <% if current_user.profile_picture.attached? %>
       <%= image_tag current_user.profile_picture.variant(resize_to_fill: [50, 50]), class: "rounded-circle" %>
     <% end %>
-    <%= link_to "Profile", edit_user_registration_path %> |
-    <%= button_to "Log out", destroy_user_session_path, method: :delete %>
   </div>
 <% end %>
 

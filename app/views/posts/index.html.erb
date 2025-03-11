@@ -4,6 +4,8 @@
     <div style="display: flex; gap: 10px;">
       <%= button_to "Profile", edit_user_registration_path, method: :get %> 
       <%= button_to "Log out", destroy_user_session_path, method: :delete %>
+      <% current_user.create_cart! unless current_user.cart %> <!-- Ensure cart is created if it doesn't exist -->
+      <%= button_to "Your Cart", cart_path(current_user.cart), method: :get %>
     </div>
   <% else %>
     <%= link_to "Log in", new_user_session_path %> |
@@ -30,6 +32,14 @@
 
       <!-- Post Contact -->
       <p><strong>Contact:</strong> <%= post.contact %></p>
+      <!-- Add to Cart Button -->
+    <% if user_signed_in? %>
+      <%= button_to "Add to Cart", add_post_cart_path(post), method: :post %>
+    <% end %>
+    
+    <% if user_signed_in? && current_user.admin? %>
+      <%= button_to "Delete", post_path(post), method: :delete, data: { confirm: "Are you sure?" } %>
+    <% end %>
     </div>
   <% end %>
 <% else %>

@@ -1,4 +1,25 @@
 Rails.application.routes.draw do
+  get "carts/show"
+  get "carts/add_post"
+  get "carts/remove_post"
+  get "admin/index"
+
+
+  resources :carts, only: [:show] do
+    member do
+      post :add_post
+      delete :remove_post
+    end
+  end
+  
+
+  namespace :admin do
+    get '/', to: "admin#index", as: :dashboard
+    patch "toggle_admin/:id", to: "admin#toggle_admin", as: :toggle_admin
+    delete "delete_user/:id", to: "admin#delete_user", as: :delete_user
+  end
+  
+  
   devise_for :users
   resources :posts do 
     resources :comments, only: [:new, :create, :index]
