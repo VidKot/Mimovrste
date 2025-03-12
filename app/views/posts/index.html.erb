@@ -12,6 +12,11 @@
     <%= link_to "Register", new_user_registration_path %>
   <% end %>
   </div>
+  <%= form_with url: posts_path, method: :get, local: true do |form| %>
+    <%= form.text_field :search, placeholder: "Search posts by title...", value: params[:search] %>
+    <%= form.submit "Search" %>
+  <% end %>
+
 </div>
 
 <h1>All Posts</h1>
@@ -28,17 +33,18 @@
       <% end %>
 
       <!-- Post Price -->
-      <p><strong>Price:</strong> <%= post.price %></p>
+      <p><strong>Price:</strong> <%= post.price %>€</p>
 
       <!-- Post Contact -->
-      <p><strong>Contact:</strong> <%= post.contact %></p>
+      <p><strong>Description:</strong> <%= post.contact %></p>
       <!-- Add to Cart Button -->
     <% if user_signed_in? %>
-      <%= button_to "Add to Cart", add_post_cart_path(post), method: :post %>
+      <%= button_to "Add to Cart", add_post_carts_path(post_id: post.id), method: :post %>
     <% end %>
     
     <% if user_signed_in? && current_user.admin? %>
       <%= button_to "Delete", post_path(post), method: :delete, data: { confirm: "Are you sure?" } %>
+      <%= link_to "Edit", edit_post_path(post), class: "btn btn-primary" %>
     <% end %>
     </div>
   <% end %>
@@ -47,7 +53,7 @@
 <% end %>
 
 <!-- Link to Create a New Post -->
-<% if user_signed_in? %>
+<% if user_signed_in? && current_user.admin? %>
   <%= link_to "New Post", new_post_path, class: "btn btn-success" %>
 <% end %>
 

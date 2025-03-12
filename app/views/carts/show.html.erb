@@ -5,9 +5,8 @@
     <% @cart.posts.each do |post| %>
       <li>
         <h3><%= post.title %></h3>
-        <p><%= post.price %></p>
+        <p><%= post.price %>€</p>
         <p><%= post.contact %></p>
-        <%= button_to "Remove from Cart", remove_post_cart_path(post), method: :delete %>
       </li>
     <% end %>
   </ul>

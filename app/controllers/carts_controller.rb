@@ -6,22 +6,47 @@ class CartsController < ApplicationController
   end
 
   def add_post
-    post = Post.find(params[:post_id])  # Ensure the post_id is in the params
-    cart = current_user.cart
-
-    # Check if the post is already in the cart
-    unless cart.posts.include?(post)
-      cart.posts << post
+    unless params[:post_id].present?
+      flash[:alert] = "Post ID is missing."
+      redirect_to root_path and return
     end
-
-    redirect_to cart_path(cart), notice: 'Post added to cart!'
+  
+    post = Post.find_by(id: params[:post_id])
+    unless post
+      flash[:alert] = "Post not found."
+      redirect_to root_path and return
+    end
+  
+    cart = current_user.cart || current_user.create_cart  # Ensure cart exists
+  
+    # Check if post is already in cart
+    if cart.posts.exists?(post.id)
+      flash[:notice] = "Post is already in your cart."
+      redirect_to cart_path(cart) and return
+    end
+  
+    cart.posts << post  # Add post to the cart
+    if cart.save
+      flash[:notice] = "Post added to cart!"
+    else
+      flash[:alert] = "Failed to add post to cart."
+    end
+  
+    redirect_to cart_path(cart)
   end
 
   def remove_post
-    post = Post.find(params[:post_id])
     cart = current_user.cart
-
-    cart.posts.delete(post)
-    redirect_to cart_path(cart), notice: 'Post removed from cart.'
+    post = Post.find_by(id: params[:post_id])
+  
+    if cart && post
+      cart.posts.delete(post)
+      flash[:notice] = "Post removed from cart."
+    else
+      flash[:alert] = "Post could not be removed."
+    end
+  
+    redirect_to cart_path(cart)
   end
+  
 end
