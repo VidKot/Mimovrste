@@ -37,16 +37,15 @@ class CartsController < ApplicationController
 
   def remove_post
     cart = current_user.cart
-    post = Post.find_by(id: params[:post_id])
-  
-    if cart && post
-      cart.posts.delete(post)
+    post = Post.find(params[:post_id])
+
+    if cart.posts.delete(post)  # Remove the post from the cart
       flash[:notice] = "Post removed from cart."
     else
-      flash[:alert] = "Post could not be removed."
+      flash[:alert] = "Failed to remove post."
     end
-  
-    redirect_to cart_path(cart)
+
+    redirect_to cart_path(cart)  # Redirect back to cart page
   end
   
 end

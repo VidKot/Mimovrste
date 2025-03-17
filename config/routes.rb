@@ -5,11 +5,13 @@ Rails.application.routes.draw do
   get "admin/index"
 
 
-  resources :carts do
+
+  resources :carts, only: [:show] do
     post 'add_post', on: :collection  # Creates add_post_carts_path
-    delete 'remove_post/:post_id', to: 'carts#remove_post', as: 'remove_post' # Creates remove_post_cart_path
+    member do
+      delete :remove_post  # Creates a route like DELETE /carts/:id/remove_post
+    end
   end
-  
   
 
   namespace :admin do
