@@ -7,7 +7,7 @@ image: ghcr.io/vidkot/mimovrste
 # Deploy to these servers.
 servers:
   web:
-    - 83.212.126.27
+    - 83.212.126.237
   # job:
   #   hosts:
   #     - 192.168.0.1
